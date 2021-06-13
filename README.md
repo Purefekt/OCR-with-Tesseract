@@ -1,5 +1,12 @@
 # OCR with Tesseract
-This project uses poetry for virtual environment and package management. First install poetry on your machine. Once installed, open terminal and cd to this directory and run ```poetry install```. This will install all the neccessary dependencies. If you get an error then run ```poetry install``` again since poppler needs cmake to be installed which will be installed in the first installation, then it should work.
+
+## Pre-requisites
+- [Python3](https://www.python.org/downloads/)
+- [Poetry](https://python-poetry.org/docs/)
+- [Tesseract](https://guides.library.illinois.edu/c.php?g=347520&p=4121425)
+
+First you must install "Poppler", on macos install it easily with homebrew ```brew install poppler```, or follow this [link](http://macappstore.org/poppler/) for more details.  
+This project uses poetry for virtual environment and package management. Open terminal and cd to this directory and run ```poetry install```. This will install all the neccessary dependencies.
 
 ## Checking the virtual environment and python interpreter
 Poetry stores the virtual environment in the following directories based on the type of system:
