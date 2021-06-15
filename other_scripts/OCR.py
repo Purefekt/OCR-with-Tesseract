@@ -1,4 +1,3 @@
-#change the interpreter to the virtual environment
 import cv2
 import pytesseract
 

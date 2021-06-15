@@ -12,6 +12,7 @@ pdf2image = "^1.15.1"
 cmake = "^3.20.2"
 python-poppler = "^0.2.2"
 jsons = "^1.4.2"
+python-Levenshtein = "^0.12.2"
 
 [tool.poetry.dev-dependencies]
 
