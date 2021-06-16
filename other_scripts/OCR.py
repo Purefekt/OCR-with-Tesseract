@@ -16,7 +16,7 @@ class OCR:
 
 
 #Config
-input_path = '/Users/veersingh/Desktop/Internship/data-extraction/test.png'
+input_path = '/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg'
 language = 'eng'
 psm = 3
 oem = 3

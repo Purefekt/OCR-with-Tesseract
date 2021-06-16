@@ -2,14 +2,12 @@ import cv2
 import pytesseract
 import os
 import Levenshtein
+import numpy as np
 
-#Levenshtein.distance() gives Levenshtein distance between two strings, 0 means the strings are exactly the same, higher means they are not alike
 
-levenshiten_distance_all = {}
-
-# kernal size must be odd and greater than 1
 img = cv2.imread("/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg")
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+levenshiten_distance_all = {}
 actual_output = """POSITION OF WOMEN 31
 
 lady must have her devoted knight or minstrel-her
@@ -49,23 +47,19 @@ as to marriage and love at this time. Gerard was
 deperately in love with a lady, but sh was moved by"""
 
 i = 1
-while i < 18:
-    medianBlur = cv2.medianBlur(gray, i)
-    output_file_name = "/Users/veersingh/Desktop/Internship/data-extraction/noise_reduction_testing/median_blur_testing/image_outputs/out_" + str(i) + ".jpg"
-    cv2.imwrite(output_file_name, medianBlur)
-    i = i + 2
+while i < 11:
+    # kernel of ones of size 1x1 upto 10x10
+    kernel = np.ones((i, i), np.uint8)
+    # applied opening to the image
+    opening = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)
 
-images_directory = "/Users/veersingh/Desktop/Internship/data-extraction/noise_reduction_testing/median_blur_testing/image_outputs"
-for filename in os.listdir(images_directory):
-    if filename.endswith(".jpg"):
-        image_path = images_directory + '/' + filename
-        img = cv2.imread(image_path)
+    # runs ocr on this image
+    ocr_output = pytesseract.image_to_string(opening)
+    levenshtein_distance = Levenshtein.distance(actual_output, ocr_output)
+    levenshiten_distance_all.update({i: levenshtein_distance})
+    i = i + 1
 
-        ocr_output = pytesseract.image_to_string(img)
-        levenshtein_distance = Levenshtein.distance(actual_output,ocr_output)
-        levenshiten_distance_all.update({filename : levenshtein_distance})
 
 print(levenshiten_distance_all)
 best = min(levenshiten_distance_all, key=levenshiten_distance_all.get)
-print("Highest Accuracy - " + best)
-
+print("Highest Accuracy -> " + str(best))
