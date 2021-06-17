@@ -6,24 +6,31 @@ class noise_reduction:
     def __init__(self, image_path):
         self.image_path = image_path
         self.input_image = cv2.imread(self.image_path)
-        print(self.image_path)
 
     def grayscale(self):
         """converts the image to grayscale, reduces computation"""
         gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
         return cv2.imshow('Gray', gray)
 
-    def median_blur(self):
-        """noise removal with median blur with order 5, works on grayscale"""
-        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        medianBlur = cv2.medianBlur(gray, 3)
-        return cv2.imshow('Median Blur', medianBlur)
-
     def thresholding(self):
         """binarization with thresholding. Otsu algorithm, works on grayscale, it automatically chooses the threshold value for us"""
         gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
         thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
         return cv2.imshow('Thresholding', thresh)
+
+    def clahe(self):
+        """Increases contrast between background and the text for easier differentiation and icreases sharpess of characters for better character segmentation"""
+        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
+        # create a CLAHE object (Arguments are optional). clipLimit = threshold for contrast limiting, tileGrideSize = gridsize for histogram equalization
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        clahe_output = clahe.apply(gray)
+        return cv2.imshow('CLAHE', clahe_output)
+
+    def median_blur(self):
+        """noise removal with median blur with order 5, works on grayscale"""
+        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
+        medianBlur = cv2.medianBlur(gray, 3)
+        return cv2.imshow('Median Blur', medianBlur)
 
     def opening(self):
         """opening performs erosion then dilation and is less destructive, after grayscale"""
@@ -41,13 +48,14 @@ class noise_reduction:
 
 
 # input image
-img = "/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg"
+img = "/Users/veersingh/Desktop/Internship/data-extraction/assets/skew_image.PNG"
 
 
 def run():
     noise_reduction(img).grayscale()
-    noise_reduction(img).median_blur()
     noise_reduction(img).thresholding()
+    noise_reduction(img).clahe()
+    noise_reduction(img).median_blur()
     noise_reduction(img).opening()
     noise_reduction(img).canny()
     cv2.waitKey(0)
