@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 
 class noise_reduction:
@@ -28,6 +27,33 @@ class noise_reduction:
         clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
         clahe_output = clahe.apply(gray)
         return cv2.imshow('CLAHE', clahe_output)
+
+    def page_rotation(self):
+        """"uses largest contour to predict the angle of rotation of the image. Image needs to be preprocessed for 
+        best results """
+        # grayscale, gaussian blur and thresholding
+        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
+        gaussianBlur = cv2.GaussianBlur(gray, (9, 9), 0)
+        thresh = cv2.threshold(gaussianBlur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+        # dilation
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (30, 5))
+        dilate = cv2.dilate(thresh, kernel, iterations=5)
+
+        # Finding all contours
+        contours, hierarchy = cv2.findContours(dilate, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)
+        # getting largest contour and it angle to be rotated
+        largestContour = contours[0]
+        # minAreaRect gives the minimum area rotated rectangle (centre(x,y), (width, height), angle)
+        minAreaRect = cv2.minAreaRect(largestContour)
+
+        # Determine the angle. Convert it to the value that was originally used to obtain skewed image
+        angle = minAreaRect[2]
+        if angle < -45:
+            angle = 90 + angle
+            print('check')
+        angle_to_rotate = -1.0 * angle
+        return angle_to_rotate
 
     def gaussian_blur(self):
         """Uses gaussian kernel for convolution. good at removing gaussian noise from the image, kernel size of 5 is
@@ -61,35 +87,22 @@ class noise_reduction:
         imageDespeckling = cv2.fastNlMeansDenoising(gray, h=10, templateWindowSize=7, searchWindowSize=21)
         return cv2.imshow("Image Despeckling", imageDespeckling)
 
-    def opening(self):
-        """opening performs erosion then dilation and is less destructive, after grayscale"""
-        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        # 5x5 kernal of all ones
-        kernel = np.ones((5, 5), np.uint8)
-        open = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)
-        return cv2.imshow('Opening', open)
-
-    def canny(self):
-        """canny edge detection, after grayscale"""
-        gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        canny_edge = cv2.Canny(gray, 100, 200)
-        return cv2.imshow('Canny Edge', canny_edge)
-
 
 # input image
 img = "/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg"
+skew_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img_skew_65.PNG'
 
 
 def run():
     noise_reduction(img).grayscale()
     noise_reduction(img).thresholding()
     noise_reduction(img).clahe()
+    print(noise_reduction(skew_image).page_rotation())
     noise_reduction(img).gaussian_blur()
     noise_reduction(img).median_blur()
     noise_reduction(img).bilateral_filtering()
     noise_reduction(img).image_despeckling()
-    noise_reduction(img).opening()
-    noise_reduction(img).canny()
+
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
