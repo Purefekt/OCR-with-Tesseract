@@ -3,7 +3,7 @@ from pytesseract import Output
 import cv2
 
 
-img = cv2.imread('/Users/veersingh/Desktop/Internship/data-extraction/assets/pdf2image_out/Page_1.jpg')
+img = cv2.imread('/Users/veersingh/Desktop/Internship/data-extraction/assets/beautiful-simple-text-Favim.com-611372.jpg')
 
 d = pytesseract.image_to_data(img, output_type=Output.DICT)
 print(d.keys())

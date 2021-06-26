@@ -23,7 +23,7 @@ for filename in os.listdir(dir_path):
         no_of_boxes = (len(d['left']))
 
         for i in range(no_of_boxes):
-            #to get rid of empty boxes
+            # to get rid of empty boxes
             if len(d['text'][i]) != 0:
                 text = d['text'][i]
                 page_num = d['page_num'][i]
@@ -45,7 +45,6 @@ for filename in os.listdir(dir_path):
                 output_dict["page"] = page_num
 
                 output_list.append(output_dict)
-
 
 json_output = json.dumps(output_list, indent=4)
 print(json_output)

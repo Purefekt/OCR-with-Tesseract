@@ -1,4 +1,3 @@
-# pdf to image
 from pdf2image import convert_from_path
 
 pdf = '/Users/veersingh/Desktop/Internship/data-extraction/assets/pdf_test.pdf'  # path to pdf
