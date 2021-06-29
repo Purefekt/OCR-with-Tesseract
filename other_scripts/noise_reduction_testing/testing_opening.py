@@ -3,8 +3,9 @@ import pytesseract
 import Levenshtein
 import numpy as np
 
-
-img = cv2.imread("/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg")
+img = cv2.imread(
+    "/Users/veersingh/Desktop/Internship/data-extraction/assets/noise_red_test_img.jpg"
+)
 
 
 def opening_accuracy(image):

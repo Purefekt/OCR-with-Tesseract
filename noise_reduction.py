@@ -2,6 +2,7 @@ import cv2
 
 
 class noise_reduction:
+
     def __init__(self, input_image):
         """takes in a opencv image"""
         self.input_image = input_image
@@ -15,7 +16,8 @@ class noise_reduction:
         """binarization with thresholding. Otsu algorithm, works on grayscale, it automatically chooses the threshold
         value for us """
         gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+        thresh = cv2.threshold(gray, 0, 255,
+                               cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
         return thresh
 
     def clahe(self):
@@ -45,7 +47,10 @@ class noise_reduction:
         """noise removal while preserving the edges. d = diameter of each pixel neighbourhood. sigmaColor = value of
         sigma in colorspace, sigmaSpace = value of sigma in coordinate space """
         gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        bilateralFiltering = cv2.bilateralFilter(gray, d=15, sigmaColor=75, sigmaSpace=75)
+        bilateralFiltering = cv2.bilateralFilter(gray,
+                                                 d=15,
+                                                 sigmaColor=75,
+                                                 sigmaSpace=75)
         return bilateralFiltering
 
     def image_despeckling(self):
@@ -57,5 +62,8 @@ class noise_reduction:
         searchWindowSize = Size in pixels of the window that is used to compute weighted average for
         given pixel. odd, greater value greater time taken, recommended = 21 """
         gray = cv2.cvtColor(self.input_image, cv2.COLOR_BGR2GRAY)
-        imageDespeckling = cv2.fastNlMeansDenoising(gray, h=10, templateWindowSize=7, searchWindowSize=21)
+        imageDespeckling = cv2.fastNlMeansDenoising(gray,
+                                                    h=10,
+                                                    templateWindowSize=7,
+                                                    searchWindowSize=21)
         return imageDespeckling

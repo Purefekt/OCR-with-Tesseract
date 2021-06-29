@@ -2,7 +2,8 @@ import cv2
 import random
 import json
 
-img = cv2.imread('/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/0.jpg')
+img = cv2.imread(
+    '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/0.jpg')
 output_dir = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/'
 
 # initialise the dict with original image at 0 degree angle
@@ -17,10 +18,18 @@ for i in range(40):
     angle = round(random.uniform(-20, 20), 2)
     M = cv2.getRotationMatrix2D(img_center, -angle, 1)
     # rotate image at the angle and set background to white
-    rotated_image = cv2.warpAffine(img, M, (cols, rows), borderMode=cv2.BORDER_CONSTANT, borderValue=(255, 255, 255))
+    rotated_image = cv2.warpAffine(img,
+                                   M, (cols, rows),
+                                   borderMode=cv2.BORDER_CONSTANT,
+                                   borderValue=(255, 255, 255))
     # add text to the image
-    rotated_image = cv2.putText(img=rotated_image, text='rotated angle = ' + str(angle), org=(25, 25),
-                                fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 0, 0), thickness=2)
+    rotated_image = cv2.putText(img=rotated_image,
+                                text='rotated angle = ' + str(angle),
+                                org=(25, 25),
+                                fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                                fontScale=1,
+                                color=(255, 0, 0),
+                                thickness=2)
 
     # create output images
     file_name = str(i + 1) + '.jpg'
@@ -29,7 +38,6 @@ for i in range(40):
 
     # write to dictinary
     angle_values_dict.update({file_name: angle})
-
 
 # writing json output
 json_output = json.dumps(angle_values_dict, indent=4)

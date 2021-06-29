@@ -5,13 +5,16 @@ import os
 import json
 
 dir_path = '/Users/veersingh/Desktop/Internship/data-extraction/assets/pdf2image_out'
-output_dict = {"bbox":
-                   {"x1": None,
-                    "y1": None,
-                    "x2": None,
-                    "y2": None},
-               "text": None,
-               "page": None}
+output_dict = {
+    "bbox": {
+        "x1": None,
+        "y1": None,
+        "x2": None,
+        "y2": None
+    },
+    "text": None,
+    "page": None
+}
 output_list = []
 
 for filename in os.listdir(dir_path):
@@ -32,10 +35,16 @@ for filename in os.listdir(dir_path):
                 x2 = d['left'][i] + d['width'][i]
                 y2 = d['top'][i] + d['height'][i]
 
-                output_dict = {"bbox": {"x1": None,
-                                        "y1": None,
-                                        "x2": None,
-                                        "y2": None}, "text": None, "page": None}
+                output_dict = {
+                    "bbox": {
+                        "x1": None,
+                        "y1": None,
+                        "x2": None,
+                        "y2": None
+                    },
+                    "text": None,
+                    "page": None
+                }
 
                 output_dict["bbox"]["x1"] = x1
                 output_dict["bbox"]["y1"] = y1

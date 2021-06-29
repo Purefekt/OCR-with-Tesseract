@@ -8,7 +8,8 @@ def get_angle(cvImage):
     newImage = cvImage.copy()
     gray = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (9, 9), 0)
-    thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    thresh = cv2.threshold(blur, 0, 255,
+                           cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
     # Apply dilate to merge text into meaningful lines/paragraphs.
     # Use larger kernel on X axis to merge characters into single line, cancelling out any spaces.
@@ -17,7 +18,8 @@ def get_angle(cvImage):
     dilate = cv2.dilate(thresh, kernel, iterations=5)
 
     # Gives a list of contours, sort it from largest to smallest
-    contours, hierarchy = cv2.findContours(dilate, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(dilate, cv2.RETR_LIST,
+                                           cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
     # Largest contour is the first one in the list. minAreaRect gives the smallest area rectangle for the contour
@@ -36,7 +38,9 @@ def get_angle(cvImage):
 
 
 # Load the dictionary
-f = open('/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/angle_values.json', )
+f = open(
+    '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/angle_values.json',
+)
 angle_values = json.load(f)
 f.close()
 
@@ -49,7 +53,9 @@ for i in range(1, 41):
     skew_angle = get_angle(input_image)
     # True angle from the json file
     true_angle = angle_values[str(i) + '.jpg']
-    percent_difference = round(abs(((skew_angle - true_angle) / true_angle) * 100), 2)
+    percent_difference = round(
+        abs(((skew_angle - true_angle) / true_angle) * 100), 2)
 
-    print('Image #' + str(i) + ' |real angle = ' + str(true_angle) + ' |calculated angle = ' + str(skew_angle)
-          + ' |difference = ' + str(percent_difference) + '%')
+    print('Image #' + str(i) + ' |real angle = ' + str(true_angle) +
+          ' |calculated angle = ' + str(skew_angle) + ' |difference = ' +
+          str(percent_difference) + '%')
