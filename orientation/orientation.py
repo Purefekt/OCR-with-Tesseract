@@ -2,11 +2,18 @@ import cv2
 import json
 
 
-def get_angle(cvImage):
-    """This function returns the angle at which the image is skewed at upto 2 decimals"""
+def get_angle(input_image_path):
+    """Calculates the angle of rotation if any on an image, like scanned documents scanned at a wrong angle
+
+    Args:
+        input_image_path: absolute path of the image we want to create the dataset with
+
+    Returns:
+        Flaot value to 2 decimal places of the calculated angle of rotation. For example: -13.05
+    """
     # Preprocessing
-    newImage = cvImage.copy()
-    gray = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
+    input_image = cv2.imread(input_image_path)
+    gray = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (9, 9), 0)
     thresh = cv2.threshold(blur, 0, 255,
                            cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -37,25 +44,40 @@ def get_angle(cvImage):
     return round((-1.0 * angle), 2)
 
 
-# Load the dictionary
-f = open(
-    '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/angle_values.json',
-)
-angle_values = json.load(f)
-f.close()
+def test_accuracy():
+    """Compares the calculated angle values against the actual values and gives the %age difference
 
-input_directory = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/'
+    Returns:
+        Prints the Image number, actual angle, calculated angle and %age difference between these values. For example:
+        Image #1 |real angle = 4.72 |calculated angle = 4.74 |difference = 0.42%
+    """
+    # Load the actual angle values from json file
+    f = open(
+        '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/angle_values.json',
+    )
+    actual_angle_values = json.load(f)
+    f.close()
 
-for i in range(1, 41):
-    # Read all images one by one
-    input_image = cv2.imread(input_directory + str(i) + '.jpg')
-    # Run get_angle function to calculate the skew angle
-    skew_angle = get_angle(input_image)
-    # True angle from the json file
-    true_angle = angle_values[str(i) + '.jpg']
-    percent_difference = round(
-        abs(((skew_angle - true_angle) / true_angle) * 100), 2)
+    input_dir = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/'
+    number_of_images = 35
 
-    print('Image #' + str(i) + ' |real angle = ' + str(true_angle) +
-          ' |calculated angle = ' + str(skew_angle) + ' |difference = ' +
-          str(percent_difference) + '%')
+    # Loop through all images, calculate angle then compare with actual angle
+    for i in range(1, number_of_images + 1):
+        # Read all images one by one
+        input_image_path = input_dir + str(i) + '.jpg'
+        # Run get_angle function to calculate the angle for each image
+        calculated_angle = get_angle(input_image_path)
+        # Get the actual angle value from the dictionary
+        actual_angle = actual_angle_values[str(i) + '.jpg']
+
+        # Calculates the % difference between actual and calculated values
+        percent_diff = round(
+            abs(((calculated_angle - actual_angle) / actual_angle) * 100), 2)
+
+        print('Image #' + str(i) + ' |real angle = ' + str(actual_angle) +
+              ' |calculated angle = ' + str(calculated_angle) +
+              ' |difference = ' + str(percent_diff) + '%')
+
+
+# Run
+test_accuracy()
