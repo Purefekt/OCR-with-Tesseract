@@ -25,7 +25,8 @@ def SDT_algorithm(input_image):
 def find_boundary_values(directory):
     distances = []
     for filename in os.listdir(directory):
-        if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+        if filename.endswith(".jpg") or filename.endswith(
+                ".jpeg") or filename.endswith(".png"):
             input_image = os.path.join(directory, filename)
 
             distance = SDT_algorithm(input_image=input_image)[3]
@@ -49,7 +50,8 @@ def test_accuracy(test_directory, train_directory):
     flagged_images = 0
 
     for filename in os.listdir(test_directory):
-        if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+        if filename.endswith(".jpg") or filename.endswith(
+                ".jpeg") or filename.endswith(".png"):
             total_images = total_images + 1
             input_image = os.path.join(test_directory, filename)
 
@@ -70,19 +72,20 @@ train_impulse = r'/Users/veersingh/Desktop/noise_detection/train/impulse'
 test_gaussian = r'/Users/veersingh/Desktop/noise_detection/test/gaussian'
 test_impulse = r'/Users/veersingh/Desktop/noise_detection/test/impulse'
 
-flagged_images, total_images, lower, upper = test_accuracy(test_directory=test_gaussian, train_directory=train_gaussian)
+flagged_images, total_images, lower, upper = test_accuracy(
+    test_directory=test_gaussian, train_directory=train_gaussian)
 print(f'-----Gaussian Noise-----\n'
       f'lower bound = {lower}\n'
       f'upper bound = {upper}\n'
       f'Total test images = {total_images}\n'
       f'Total flagged images = {flagged_images}\n'
-      f'Accuracy = {(flagged_images / total_images) * 100}\n')
+      f'Accuracy = {(flagged_images / total_images) * 100}%\n')
 
-flagged_images, total_images, lower, upper = test_accuracy(test_directory=test_impulse, train_directory=train_impulse)
+flagged_images, total_images, lower, upper = test_accuracy(
+    test_directory=test_impulse, train_directory=train_impulse)
 print(f'-----Impulse Noise-----\n'
       f'lower bound = {lower}\n'
       f'upper bound = {upper}\n'
       f'Total test images = {total_images}\n'
       f'Total flagged images = {flagged_images}\n'
-      f'Accuracy = {(flagged_images / total_images) * 100}\n')
-
+      f'Accuracy = {(flagged_images / total_images) * 100}%\n')

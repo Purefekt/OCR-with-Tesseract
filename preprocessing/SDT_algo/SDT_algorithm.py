@@ -21,7 +21,7 @@ def SDT_algorithm(input_image):
     return img, histogram, D, distance
 
 
-input_image = '/Users/veersingh/Desktop/DatabaseImage0002sltpepprimgNoise0.98.jpg'
+input_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/gauss.jpg'
 img, histogram, D, distance = SDT_algorithm(input_image=input_image)
 
 print(distance)
@@ -40,4 +40,4 @@ def plot():
     plt.show()
 
 
-#plot()
+plot()
