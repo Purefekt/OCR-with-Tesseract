@@ -62,8 +62,8 @@ def create_skew_dataset(input_image_path, dataset_size, output_dir):
 
 
 # Run
-input_image_path = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/0.jpg'
+input_image_path = '/Users/veersingh/Desktop/Internship/data-extraction/orientation/Dataset - pdf at angles from -20 to 20/0.jpg'
 dataset_size = 35
-output_dir = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/'
+output_dir = '/Users/veersingh/Desktop/Internship/data-extraction/orientation/Dataset - pdf at angles from -20 to 20'
 
 create_skew_dataset(input_image_path, dataset_size, output_dir)

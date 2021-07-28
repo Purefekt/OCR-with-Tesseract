@@ -10,7 +10,8 @@ watermark_removed = watermark_removal(image).output()
 gaussian_flag, impulse_flag = noise_type_detector(watermark_removed).flag()
 """Third apply filter depending on the flag"""
 if gaussian_flag == 1:
-    third = noise_reduction_apply(watermark_removed).gaussian_blur()
+    third = noise_reduction_apply(
+        watermark_removed).paper_algo_gaussian_removal()
     print(gaussian_flag)
 elif impulse_flag == 1:
     third = noise_reduction_apply(watermark_removed).median_blur()

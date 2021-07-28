@@ -40,4 +40,4 @@ def plot():
     plt.show()
 
 
-plot()
+# plot()
