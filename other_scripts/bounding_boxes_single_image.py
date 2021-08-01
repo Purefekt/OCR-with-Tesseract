@@ -2,6 +2,8 @@ import pytesseract
 from pytesseract import Output
 import cv2
 
+"""NOTE: PAGE NUMBER IS WRONG"""
+
 img = cv2.imread(
     '/Users/veersingh/Desktop/Internship/data-extraction/assets/beautiful-simple-text-Favim.com-611372.jpg'
 )

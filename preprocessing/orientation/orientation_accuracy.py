@@ -1,20 +1,12 @@
 import cv2
 import json
+import matplotlib.pyplot as plt
 
 
 def get_angle(input_image_path):
-    """Calculates the angle of rotation if any on an image, like scanned documents scanned at a wrong angle
-
-    Args:
-        input_image_path: absolute path of the image we want to create the dataset with
-
-    Returns:
-        Flaot value to 2 decimal places of the calculated angle of rotation. For example: -13.05
-    """
     # Preprocessing
-    input_image = cv2.imread(input_image_path)
-    gray = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray, (9, 9), 0)
+    input_image = cv2.imread(input_image_path, cv2.IMREAD_GRAYSCALE)
+    blur = cv2.GaussianBlur(input_image, (9, 9), 0)
     thresh = cv2.threshold(blur, 0, 255,
                            cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
@@ -44,40 +36,51 @@ def get_angle(input_image_path):
     return round((-1.0 * angle), 2)
 
 
-def test_accuracy():
-    """Compares the calculated angle values against the actual values and gives the %age difference
-
-    Returns:
-        Prints the Image number, actual angle, calculated angle and %age difference between these values. For example:
-        Image #1 |real angle = 4.72 |calculated angle = 4.74 |difference = 0.42%
-    """
+def test_accuracy(actual_angle_values_json, dataset_dir, no_of_images):
     # Load the actual angle values from json file
-    f = open(
-        '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/angle_values.json',
-    )
+    f = open(actual_angle_values_json, )
     actual_angle_values = json.load(f)
     f.close()
 
-    input_dir = '/Users/veersingh/Desktop/Dataset - pdf at angles from -20 to 20/'
-    number_of_images = 35
+    # For plotting
+    X = list()
+    Y = list()
 
     # Loop through all images, calculate angle then compare with actual angle
-    for i in range(1, number_of_images + 1):
+    for i in range(1, no_of_images + 1):
         # Read all images one by one
-        input_image_path = input_dir + str(i) + '.jpg'
+        input_image_path = dataset_dir + str(i) + '.jpg'
         # Run get_angle function to calculate the angle for each image
         calculated_angle = get_angle(input_image_path)
         # Get the actual angle value from the dictionary
         actual_angle = actual_angle_values[str(i) + '.jpg']
 
         # Calculates the % difference between actual and calculated values
-        percent_diff = round(
-            abs(((calculated_angle - actual_angle) / actual_angle) * 100), 2)
+        try:
+            percent_diff = round(
+                abs(((calculated_angle - actual_angle) / actual_angle) * 100), 2)
+        except:
+            # if actual_angle = 0
+            percent_diff = 0.0
 
         print('Image #' + str(i) + ' |real angle = ' + str(actual_angle) +
               ' |calculated angle = ' + str(calculated_angle) +
               ' |difference = ' + str(percent_diff) + '%')
 
+        # Plotting
+        X.append(actual_angle)
+        Y.append(percent_diff)
+
+    plt.scatter(X, Y)
+    plt.xlabel('Angles')
+    plt.ylabel('Percentage Difference b/w Actual Angle and Calculated Angle')
+    plt.show()
+
+
 
 # Run
-test_accuracy()
+actual_angle_values_json = '/Users/veersingh/Desktop/Internship/data-extraction/preprocessing/orientation/orientation_dataset/angle_values.json'
+dataset_dir = '/Users/veersingh/Desktop/Internship/data-extraction/preprocessing/orientation/orientation_dataset/'
+no_of_images = 1400
+
+test_accuracy(actual_angle_values_json, dataset_dir, no_of_images)

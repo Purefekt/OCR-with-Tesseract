@@ -4,7 +4,7 @@ import numpy as np
 import scipy.signal
 import statistics
 
-input_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/gauss2.jpg'
+input_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/gauss.jpg'
 original_image = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
 img = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
 
@@ -31,7 +31,7 @@ def find_gaussian_noise_sd():
 
 gaussian_noise_sd = find_gaussian_noise_sd()
 # higher smoothing factor, better noise removal at the cost of image detail
-smoothing_factor = 2
+smoothing_factor = 5
 W = 3
 threshold = (2 * W) - 1
 
@@ -93,6 +93,5 @@ gaussian_blur = cv2.GaussianBlur(original_image, (5, 5), 0)
 cv2.imshow('Original', original_image)
 cv2.imshow('Output', img)
 cv2.imshow('Gaussian Blur', gaussian_blur)
-cv2.imwrite('check1.jpg', img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
