@@ -2,7 +2,6 @@ import os
 import json
 from preprocessing.signature_removal import signature_removal
 import cv2
-
 """
 This script saves the calculated bbox values in json format for each image.
 json format:
@@ -27,10 +26,13 @@ for filename in os.listdir(scanned_page_images_dir):
     print(filename)
 
     # Use signature detection algorithm
-    signature = signature_removal(cv2.imread(current_image_path, cv2.IMREAD_GRAYSCALE)).detect_signature()
+    signature = signature_removal(
+        cv2.imread(current_image_path,
+                   cv2.IMREAD_GRAYSCALE)).detect_signature()
 
     # Find contours
-    contours, hierarchy = cv2.findContours(signature, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2:]
+    contours, hierarchy = cv2.findContours(signature, cv2.RETR_LIST,
+                                           cv2.CHAIN_APPROX_SIMPLE)[-2:]
     area = list()
     x_list = list()
     y_list = list()

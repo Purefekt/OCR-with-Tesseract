@@ -3,9 +3,11 @@ from preprocessing.signature_removal import signature_removal
 
 
 def get_bbox_calculated(image):
-    signature = signature_removal(cv2.imread(image, cv2.IMREAD_GRAYSCALE)).detect_signature()
+    signature = signature_removal(cv2.imread(
+        image, cv2.IMREAD_GRAYSCALE)).detect_signature()
 
-    contours, hierarchy = cv2.findContours(signature, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2:]
+    contours, hierarchy = cv2.findContours(signature, cv2.RETR_LIST,
+                                           cv2.CHAIN_APPROX_SIMPLE)[-2:]
     area = list()
     x_list = list()
     y_list = list()
@@ -54,21 +56,53 @@ ymax_gt = ymin_gt + h
 xmin_c, ymin_c, xmax_c, ymax_c = get_bbox_calculated(image)
 
 # draw bbox for ground truth values in red color
-original_image = cv2.rectangle(original_image, (xmin_gt, ymin_gt), (xmax_gt, ymax_gt), (0, 0, 255), 5)
+original_image = cv2.rectangle(original_image, (xmin_gt, ymin_gt),
+                               (xmax_gt, ymax_gt), (0, 0, 255), 5)
 # draw bbox for calculated values in blue color
-original_image = cv2.rectangle(original_image, (xmin_c, ymin_c), (xmax_c, ymax_c), (255, 0, 0), 5)
+original_image = cv2.rectangle(original_image, (xmin_c, ymin_c),
+                               (xmax_c, ymax_c), (255, 0, 0), 5)
 
 print(f'%%%%% Ground Truh Values %%%%%\n'
       f'xmin = {xmin_gt}\n'
       f'ymin = {ymin_gt}\n'
       f'xmax = {xmax_gt}\n'
-      f'ymax = {ymax_gt}')
+      f'ymax = {ymax_gt}\n')
 
 print(f'%%%%% Calculated Values %%%%%\n'
       f'xmin = {xmin_c}\n'
       f'ymin = {ymin_c}\n'
       f'xmax = {xmax_c}\n'
-      f'ymax = {ymax_c}')
+      f'ymax = {ymax_c}\n')
+
+# Calculate iou
+# ground truth and calculated bbox areas
+gt_bbox_area = (xmax_gt - xmin_gt) * (ymax_gt - ymin_gt)
+calc_bbox_area = (xmax_c - xmin_c) * (ymax_c - ymin_c)
+
+# Coordinates of intersection
+xmin_inter = max(xmin_gt, xmin_c)
+ymin_inter = max(ymin_gt, ymin_c)
+xmax_inter = min(xmax_gt, xmax_c)
+ymax_inter = min(ymax_gt, ymax_c)
+
+if xmax_inter < xmin_inter or ymax_inter < ymin_inter:
+    iou = 0.0
+else:
+    intersection_area = (xmax_inter - xmin_inter) * (ymax_inter - ymin_inter)
+    iou = intersection_area / float(gt_bbox_area + calc_bbox_area -
+                                    intersection_area)
+    iou = round(iou * 100, 2)
+
+print(f'IOU: {iou}%')
+
+# print IOU on the imange
+original_image = cv2.putText(img=original_image,
+                             text=f'IOU: {iou}%',
+                             org=(25, 100),
+                             fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                             fontScale=2,
+                             color=(255, 0, 0),
+                             thickness=10)
 
 cv2.imshow('calculated', original_image)
 cv2.waitKey(0)

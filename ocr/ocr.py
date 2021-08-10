@@ -35,7 +35,6 @@ class ocr:
             pdf_page_images[i].save('current_page.jpg', 'JPEG')
             current_page = 'current_page.jpg'
             current_page_num = i + 1
-
             """applying bounding boxes to current page"""
             # creating custom config for psm and oem
             custom_oem_psm_config = r'--oem ' + str(

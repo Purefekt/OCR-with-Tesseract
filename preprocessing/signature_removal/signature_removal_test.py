@@ -5,7 +5,6 @@ from skimage.measure import regionprops
 from skimage import morphology
 import numpy as np
 
-
 image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/signature1.tif'
 
 img = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
@@ -17,7 +16,10 @@ img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)[1]
 blobs = img > 254
 # skimage.measure.label() will label the connected pixels where the background is white.
 # Basically it will only affect the black pixels of our thresholded image, white pixels are labelled as 0.
-blobs_labels = measure.label(blobs, background=1,)
+blobs_labels = measure.label(
+    blobs,
+    background=1,
+)
 # skimage.color.label2rgb() will use the pixels labelled in the prev step and give them different colours for
 # better visualization.
 # bg_label=0 indicates that any pixel with value 0 will be treated as background and will not be coloured.
@@ -51,14 +53,16 @@ for region in regionprops(blobs_labels):
         count = count + 1
 average = (total_area / count)
 
-a4_small_size_threshold = ((average/small_parameter_1)*small_parameter_2) + small_parameter_3
+a4_small_size_threshold = (
+    (average / small_parameter_1) * small_parameter_2) + small_parameter_3
 a4_large_size_threshold = a4_small_size_threshold * large_parameter_1
 
 # We will take the connected regions and remove the outliers by removed regions with area less than the
 # small size outlier and larger than the large size outlier
 
 # Removes small outliers
-signature = morphology.remove_small_objects(blobs_labels, a4_small_size_threshold)
+signature = morphology.remove_small_objects(blobs_labels,
+                                            a4_small_size_threshold)
 
 # Removes large outliers
 component_sizes = np.bincount(signature.ravel())
@@ -68,11 +72,14 @@ too_large_mask = too_large[signature]
 signature[too_large_mask] = 0
 
 connected_regions_in_given_range = len(regionprops(signature))
-print(f'Number of connected regions in the given range--> {connected_regions_in_given_range}')
+print(
+    f'Number of connected regions in the given range--> {connected_regions_in_given_range}'
+)
 
 # convert from int32 to unint8 for opencv
 signature = np.uint8(signature)
-signature = cv2.threshold(signature, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+signature = cv2.threshold(signature, 0, 255,
+                          cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 # Getting image without signature
 img_wo_signature = cv2.subtract(signature, img)
 img_wo_signature = cv2.bitwise_not(img_wo_signature)

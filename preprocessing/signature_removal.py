@@ -21,7 +21,10 @@ class signature_removal:
 
         # Connected component analysis by scikit-learn framework
         blobs = img > 254
-        blobs_labels = measure.label(blobs, background=1,)
+        blobs_labels = measure.label(
+            blobs,
+            background=1,
+        )
 
         # These parameters are used to remove small size outlier connected pixel regions
         small_parameter_1 = 84
@@ -39,11 +42,13 @@ class signature_removal:
                 count = count + 1
         average = (total_area / count)
 
-        a4_small_size_threshold = ((average / small_parameter_1) * small_parameter_2) + small_parameter_3
+        a4_small_size_threshold = ((average / small_parameter_1) *
+                                   small_parameter_2) + small_parameter_3
         a4_large_size_threshold = a4_small_size_threshold * large_parameter_1
 
         # Removes small outliers
-        signature = morphology.remove_small_objects(blobs_labels, a4_small_size_threshold)
+        signature = morphology.remove_small_objects(blobs_labels,
+                                                    a4_small_size_threshold)
 
         # Removes large outliers
         component_sizes = np.bincount(signature.ravel())
@@ -54,7 +59,8 @@ class signature_removal:
 
         # Getting the signature
         signature = np.uint8(signature)
-        signature = cv2.threshold(signature, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        signature = cv2.threshold(signature, 0, 255,
+                                  cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
         """Getting image without signature"""
         img_wo_signature = cv2.subtract(signature, img)
         img_wo_signature = cv2.bitwise_not(img_wo_signature)

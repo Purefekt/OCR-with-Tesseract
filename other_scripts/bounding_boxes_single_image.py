@@ -1,7 +1,6 @@
 import pytesseract
 from pytesseract import Output
 import cv2
-
 """NOTE: PAGE NUMBER IS WRONG"""
 
 img = cv2.imread(

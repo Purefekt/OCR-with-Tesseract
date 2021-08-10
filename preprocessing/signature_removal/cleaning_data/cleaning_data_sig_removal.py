@@ -32,7 +32,3 @@ for filename in os.listdir(ground_truth_dir):
 
 print(total)
 print(usable)
-
-
-
-

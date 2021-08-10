@@ -3,7 +3,6 @@ from pytesseract import Output
 import cv2
 import os
 import json
-
 """NOTE: PAGE NUMBER IS WRONG"""
 
 dir_path = '/Users/veersingh/Desktop/Internship/data-extraction/assets/pdf2image_out'

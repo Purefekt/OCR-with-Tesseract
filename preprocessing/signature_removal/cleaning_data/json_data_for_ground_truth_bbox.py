@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 import os
 import json
-
 """
 This script saves the ground truth bbox values in this json format for each image.
 {

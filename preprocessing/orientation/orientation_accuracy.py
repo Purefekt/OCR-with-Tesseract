@@ -38,7 +38,7 @@ def get_angle(input_image_path):
 
 def test_accuracy(actual_angle_values_json, dataset_dir, no_of_images):
     # Load the actual angle values from json file
-    f = open(actual_angle_values_json, )
+    f = open(actual_angle_values_json,)
     actual_angle_values = json.load(f)
     f.close()
 
@@ -58,7 +58,8 @@ def test_accuracy(actual_angle_values_json, dataset_dir, no_of_images):
         # Calculates the % difference between actual and calculated values
         try:
             percent_diff = round(
-                abs(((calculated_angle - actual_angle) / actual_angle) * 100), 2)
+                abs(((calculated_angle - actual_angle) / actual_angle) * 100),
+                2)
         except:
             # if actual_angle = 0
             percent_diff = 0.0
@@ -75,7 +76,6 @@ def test_accuracy(actual_angle_values_json, dataset_dir, no_of_images):
     plt.xlabel('Angles')
     plt.ylabel('Percentage Difference b/w Actual Angle and Calculated Angle')
     plt.show()
-
 
 
 # Run
