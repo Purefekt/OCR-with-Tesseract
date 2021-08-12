@@ -15,14 +15,14 @@ json format:
 }
 """
 
-scanned_page_images_dir = '/Users/veersingh/Desktop/docs_with_signs_dataset(tobacco800)/scanned_page_images/'
-json_file_output_dir = '/Users/veersingh/Desktop/docs_with_signs_dataset(tobacco800)/'
+scanned_page_images_dir = '/Users/veersingh/Desktop/docs_with_signs_dataset(tobacco800)/scanned_page_images'
+json_file_output_dir = '/Users/veersingh/Desktop/docs_with_signs_dataset(tobacco800)'
 
 calculated_values = dict()
 
 for filename in os.listdir(scanned_page_images_dir):
     current_image_name = filename
-    current_image_path = scanned_page_images_dir + filename
+    current_image_path = scanned_page_images_dir + '/' + filename
     print(filename)
 
     # Use signature detection algorithm
@@ -72,7 +72,7 @@ for filename in os.listdir(scanned_page_images_dir):
 
 # writing json output
 json_output = json.dumps(calculated_values, indent=4)
-output_json_file = json_file_output_dir + 'calculated_bbox.json'
+output_json_file = json_file_output_dir + '/' + 'calculated_bbox.json'
 jsonFile = open(output_json_file, "w")
 jsonFile.write(json_output)
 jsonFile.close()
