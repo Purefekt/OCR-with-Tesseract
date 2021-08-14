@@ -1,12 +1,12 @@
 import cv2
-from preprocessing.signature_removal import signature_removal
+from modules.signature_removal import signature_removal
 
 image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/signature3.tif'
 original = cv2.imread(image)
 
 img = cv2.imread(image, cv2.IMREAD_GRAYSCALE)
 
-signature = signature_removal(input_image=img).detect_signature()
+signature = signature_removal(input_image=img).get_detected_signature()
 image_without_sign = signature_removal(
     input_image=img).get_image_without_signature()
 
