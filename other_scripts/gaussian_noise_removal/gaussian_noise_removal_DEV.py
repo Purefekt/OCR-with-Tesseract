@@ -4,7 +4,7 @@ import numpy as np
 import scipy.signal
 import statistics
 
-input_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/gauss.jpg'
+input_image = '../../assets/gauss.jpg'
 original_image = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
 img = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
 

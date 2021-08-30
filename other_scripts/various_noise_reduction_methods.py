@@ -1,5 +1,9 @@
 import cv2
 
+"""
+This class has various methods which are used in image preprocessing.
+"""
+
 
 class noise_reduction:
 

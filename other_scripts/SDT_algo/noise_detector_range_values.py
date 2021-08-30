@@ -2,6 +2,13 @@ import os
 import cv2
 import numpy as np
 
+"""
+Dataset -> https://www.kaggle.com/veersingh230799/images-with-gaussian-or-impulse-noise/settings
+This script will go over the training images for gaussian noise (1200 images) and impulse noise (1200 images)
+to find the range of values for spike detection algorithm.
+It then uses the images in the training set to check how accurate those values are and prints the results.
+"""
+
 
 def SDT_algorithm(input_image):
     img = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
@@ -67,10 +74,12 @@ def test_accuracy(test_directory, train_directory):
 
 
 ####################################################################################################################
-train_gaussian = r'/Users/veersingh/Desktop/noise_detection/train/gaussian'
-train_impulse = r'/Users/veersingh/Desktop/noise_detection/train/impulse'
-test_gaussian = r'/Users/veersingh/Desktop/noise_detection/test/gaussian'
-test_impulse = r'/Users/veersingh/Desktop/noise_detection/test/impulse'
+
+# Download the dataset from the link and get the paths to the following directories
+train_gaussian = ''  # path to dataset/train/gaussian
+train_impulse = ''  # path to dataset/train/impulse
+test_gaussian = ''  # path to dataset/test/gaussian
+test_impulse = ''  # # path to dataset/test/impulse
 
 flagged_images, total_images, lower, upper = test_accuracy(
     test_directory=test_gaussian, train_directory=train_gaussian)

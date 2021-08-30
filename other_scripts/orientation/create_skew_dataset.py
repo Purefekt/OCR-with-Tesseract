@@ -115,8 +115,8 @@ def create_skew_dataset(input_image_path, a1, a2):
 
 
 # Run
-# input_image_path = '/Users/veersingh/Desktop/Internship/data-extraction/assets/orientation_dataset_source_1.jpg'
-input_image_path = '/Users/veersingh/Desktop/Internship/data-extraction/assets/orientation_dataset_source_2.png'
+input_image_path = '../../assets/orientation_dataset_source_1.jpg'
+# input_image_path = '../../assets/orientation_dataset_source_2.png'
 dataset_size = 5
 a1 = -20
 a2 = +20

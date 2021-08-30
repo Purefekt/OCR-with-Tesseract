@@ -1,7 +1,7 @@
 import cv2
 
 
-class noise_type_detector:
+class Noise_type_detector:
 
     # values calculated previously
     lower_gaussian = 96.04917198684099
@@ -36,11 +36,11 @@ class noise_type_detector:
         gaussian_flag = 0
         impulse_flag = 0
 
-        distance = noise_type_detector.SDT_algorithm(self.input_image)
+        distance = Noise_type_detector.SDT_algorithm(self.input_image)
 
-        if noise_type_detector.lower_gaussian <= distance <= noise_type_detector.upper_gaussian:
+        if Noise_type_detector.lower_gaussian <= distance <= Noise_type_detector.upper_gaussian:
             gaussian_flag = 1
-        elif noise_type_detector.lower_impulse <= distance <= noise_type_detector.upper_impulse:
+        elif Noise_type_detector.lower_impulse <= distance <= Noise_type_detector.upper_impulse:
             impulse_flag = 1
         else:
             pass

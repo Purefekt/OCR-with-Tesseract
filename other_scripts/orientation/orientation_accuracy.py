@@ -79,8 +79,8 @@ def test_accuracy(actual_angle_values_json, dataset_dir, no_of_images):
 
 
 # Run
-actual_angle_values_json = '/Users/veersingh/Desktop/Internship/data-extraction/preprocessing/orientation/orientation_dataset/angle_values.json'
-dataset_dir = '/Users/veersingh/Desktop/Internship/data-extraction/preprocessing/orientation/orientation_dataset/'
+dataset_dir = 'orientation_dataset/'
+actual_angle_values_json = 'orientation_dataset/angle_values.json'
 no_of_images = 1400
 
 test_accuracy(actual_angle_values_json, dataset_dir, no_of_images)

@@ -5,7 +5,7 @@ import numpy as np
 import statistics
 
 
-class noise_reduction_apply:
+class Noise_reduction_apply:
 
     def __init__(self, input_image):
         """input_image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)"""
@@ -42,7 +42,7 @@ class noise_reduction_apply:
         M = img.shape[0]
         N = img.shape[1]
 
-        gaussian_noise_sd = noise_reduction_apply.get_gaussian_noise_sd(
+        gaussian_noise_sd = Noise_reduction_apply.get_gaussian_noise_sd(
             self.input_image)
 
         # higher smoothing factor gives better noise removal at the cost of image detail

@@ -21,7 +21,7 @@ def SDT_algorithm(input_image):
     return img, histogram, D, distance
 
 
-input_image = '/Users/veersingh/Desktop/Internship/data-extraction/assets/gauss.jpg'
+input_image = '../../assets/gauss.jpg'
 img, histogram, D, distance = SDT_algorithm(input_image=input_image)
 
 print(distance)

@@ -1,7 +1,7 @@
 import cv2
 
 
-class watermark_removal:
+class Watermark_removal:
 
     def __init__(self, input_image):
         self.input_image = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)

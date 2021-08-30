@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-input_image = '/Users/veersingh/Desktop/Internship/data-extraction/preprocessing/orientation/orientation_dataset/601.jpg'
+input_image = '../../assets/orientation.jpg'
 original = cv2.imread(input_image)
 
 img = cv2.imread(input_image, cv2.IMREAD_GRAYSCALE)
@@ -34,7 +34,7 @@ else:
 
 skew_angle = round((-1.0 * angle), 2)
 
-######################################## Fixing
+# Correcting skew
 rows = img.shape[0]
 cols = img.shape[1]
 img_center = (cols / 2, rows / 2)
