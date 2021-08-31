@@ -1,4 +1,6 @@
-# Summary
+# OCR with Tesseract
+
+## Summary
 This repository contains modules for basic ocr on image and pdf, correcting skew in scanned documents, auto noise type detector and noise reduction and watermark removal. Detailed examples on how to use these modules are given in seperate jupyter notebooks and how the code is working is detailed in pdf documentation.
 
 ## Prerequisite
