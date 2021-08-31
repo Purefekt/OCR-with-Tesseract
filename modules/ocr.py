@@ -5,8 +5,16 @@ import os
 import json
 
 
-class ocr:
-    """input can be either an image or a pdf"""
+class Ocr:
+    """
+    This class has methods for applying googles tesseract OCR on single images or a pdf
+
+    Attributes:
+        input_path: input path of the image or pdf
+        language: chosen language
+        oem: OCR engine mode, can be 0,1,2,3
+        psm: page segmentation mode, can be 0,1,2,3,4,5,6,7,8,9,10,11,12,13
+    """
 
     def __init__(self, input_path, language='eng', oem=3, psm=3):
         self.input_path = input_path
@@ -15,6 +23,15 @@ class ocr:
         self.psm = psm
 
     def basic_ocr(self):
+        """
+        This method performs OCR on a single image
+
+        Args:
+            self
+
+        Returns:
+            The entire text which was detected
+        """
         custom_oem_psm_config = r'--oem ' + str(self.oem) + r' --psm ' + str(
             self.psm)
         output = pytesseract.image_to_string(self.input_path,
@@ -23,8 +40,16 @@ class ocr:
         return output
 
     def ocr_on_pdf(self):
-        """converts the current page into an image, saves it and then runs ocr on that page.
-        Once completed moves on to the next image and overwrites the previous image"""
+        """
+        Performs OCR on a pdf. Gooes through the pdf page by page, saving each word in a JSON file with its text
+        and bbox coordinates.
+
+        Args:
+            self
+
+        Returns:
+            JSON file with all the detected words and their bbox coordinates
+        """
 
         output_list = []
 

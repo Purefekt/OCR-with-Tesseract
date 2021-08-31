@@ -1,9 +1,13 @@
 import cv2
 
 
-class orientation_correction:
+class OrientationCorrection:
     """
-    input = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+    This class has methods to detect the orientation of a scanned document and then tries to correct for that skew
+    by rotating the image.
+
+    Attributes:
+        input_image: grayscale numpy array image
     """
 
     def __init__(self, input_image):
@@ -11,6 +15,15 @@ class orientation_correction:
 
     @staticmethod
     def get_skewed_angle(img):
+        """
+        This method calculated the angle of skew
+
+        Args:
+            grayscale numpy array image
+
+        Returns:
+            float value of the angle
+        """
         blur = cv2.GaussianBlur(img, (9, 9), 0)
         thresh = cv2.threshold(blur, 0, 255,
                                cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
@@ -39,12 +52,21 @@ class orientation_correction:
         return skew_angle
 
     def orientation_correction(self):
+        """
+        This method corrects the skew of the image by rotating it using the angle calculated in the previous method
+
+        Args:
+            self
+
+        Returns:
+            numpy array image where the skew has been corrected
+        """
         img = self.input_image
         rows = img.shape[0]
         cols = img.shape[1]
         img_center = (cols / 2, rows / 2)
 
-        skew_angle = orientation_correction.get_skewed_angle(img)
+        skew_angle = OrientationCorrection.get_skewed_angle(img)
 
         M = cv2.getRotationMatrix2D(img_center, skew_angle, 1)
         rotated_image = cv2.warpAffine(img,

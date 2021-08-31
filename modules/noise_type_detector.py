@@ -1,9 +1,15 @@
 import cv2
 
 
-class Noise_type_detector:
+class NoiseTypeDetector:
+    """
+    Implementation of the spike detection algorithm which is used to detect the type of noise in an image
 
-    # values calculated previously
+    Attributes:
+        input_image: a grayscale numpy array image
+    """
+
+    # values calculated using noise_detector_range_values.py script
     lower_gaussian = 96.04917198684099
     upper_gaussian = 326.5743861507359
 
@@ -11,11 +17,19 @@ class Noise_type_detector:
     upper_impulse = 8989.931753143906
 
     def __init__(self, input_image):
-        """input_image = cv2.imread(img, cv2.IMREAD_GRAYSCALE)"""
         self.input_image = input_image
 
     @staticmethod
-    def SDT_algorithm(img):
+    def sdt_algorithm(img):
+        """
+        Get the distance of the particular image
+
+        Args:
+            grayscale numpy array image
+
+        Returns:
+            Float value of the distance
+        """
         histogram = cv2.calcHist([img], [0], None, [256], [0, 256])
         H = []
         for i in range(len(histogram)):
@@ -33,14 +47,24 @@ class Noise_type_detector:
         return distance
 
     def flag(self):
+        """
+        This method uses the distance calculated by SDT_algorithm() to flag the image as having gaussian noise or
+        impulse noise or none.
+
+        Args:
+            self
+
+        Returns:
+            Int value for flags for gaussian and impulse noise. If image has gaussian noise then the output will be 1,0
+        """
         gaussian_flag = 0
         impulse_flag = 0
 
-        distance = Noise_type_detector.SDT_algorithm(self.input_image)
+        distance = NoiseTypeDetector.sdt_algorithm(self.input_image)
 
-        if Noise_type_detector.lower_gaussian <= distance <= Noise_type_detector.upper_gaussian:
+        if NoiseTypeDetector.lower_gaussian <= distance <= NoiseTypeDetector.upper_gaussian:
             gaussian_flag = 1
-        elif Noise_type_detector.lower_impulse <= distance <= Noise_type_detector.upper_impulse:
+        elif NoiseTypeDetector.lower_impulse <= distance <= NoiseTypeDetector.upper_impulse:
             impulse_flag = 1
         else:
             pass

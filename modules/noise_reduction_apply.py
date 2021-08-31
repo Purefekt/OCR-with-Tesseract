@@ -5,20 +5,43 @@ import numpy as np
 import statistics
 
 
-class Noise_reduction_apply:
+class NoiseReductionApply:
+    """
+    This class has methods which can be applied to an image to reduce noise.
+
+    Attributes:
+        input_image: a grayscale numpy array image
+    """
 
     def __init__(self, input_image):
-        """input_image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)"""
         self.input_image = input_image
 
     # opencv gaussian blur
     def gaussian_blur(self):
+        """
+        Applied OpenCV's gaussian blur function with 5x5 kernel
+
+        Args:
+            self
+
+        Returns:
+            A numpy array with gaussian blur applied
+        """
         gaussian_blur = cv2.GaussianBlur(self.input_image, (5, 5), 0)
         return gaussian_blur
 
     # gaussian noise removal algorithm from paper
     @staticmethod
     def get_gaussian_noise_sd(img):
+        """
+        Gets the gaussian noise standard deviation of the image.
+
+        Args:
+            img: numpy array grayscale image
+
+        Returns:
+            float value of the gaussian standard deviation of the input image
+        """
         M = img.shape[0]
         N = img.shape[1]
 
@@ -38,11 +61,20 @@ class Noise_reduction_apply:
         return gaussian_noise_sd
 
     def paper_algo_gaussian_removal(self):
+        """
+        Implementation of the gaussian noise removal algorithm from the paper
+
+        Args:
+            self
+
+        Returns:
+            numpy array with gaussian noise removed
+        """
         img = self.input_image
         M = img.shape[0]
         N = img.shape[1]
 
-        gaussian_noise_sd = Noise_reduction_apply.get_gaussian_noise_sd(
+        gaussian_noise_sd = NoiseReductionApply.get_gaussian_noise_sd(
             self.input_image)
 
         # higher smoothing factor gives better noise removal at the cost of image detail
@@ -97,10 +129,28 @@ class Noise_reduction_apply:
         return img
 
     def median_blur(self):
+        """
+        Applied OpenCV's median blur function with kernel size 3
+
+        Args:
+            self
+
+        Returns:
+            A numpy array with median blur applied
+        """
         median_blur = cv2.medianBlur(self.input_image, 3)
         return median_blur
 
     def thresholding(self):
+        """
+        Applied OpenCV's Otsu thresholding function
+
+        Args:
+            self
+
+        Returns:
+            A numpy array with thresholding applied
+        """
         thresh = cv2.threshold(self.input_image, 0, 255,
                                cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
         return thresh
