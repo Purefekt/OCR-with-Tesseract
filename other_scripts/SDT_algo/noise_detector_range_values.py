@@ -1,7 +1,6 @@
 import os
 import cv2
 import numpy as np
-
 """
 Dataset -> https://www.kaggle.com/veersingh230799/images-with-gaussian-or-impulse-noise/settings
 This script will go over the training images for gaussian noise (1200 images) and impulse noise (1200 images)

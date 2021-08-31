@@ -1,9 +1,7 @@
 import cv2
 from matplotlib import pyplot as plt
 
-img = cv2.imread(
-    '../../assets/impulse.jpg',
-    cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('../../assets/impulse.jpg', cv2.IMREAD_GRAYSCALE)
 
 histogram = cv2.calcHist([img], [0], None, [256], [0, 256])
 
